@@ -1,0 +1,6 @@
+{% include 'header.html.twig' %}
+This is a main page<br>
+<a href="{{ path('add_an_author') }}">Add a new Author</a><br>
+<a href="{{ path('add_a_book') }}">Add a new Book</a><br>
+<a href="{{ path('edit_a_book', {book_id: 1}) }}">Edit an existing Book</a>
+{% include 'footer.html.twig' %}
