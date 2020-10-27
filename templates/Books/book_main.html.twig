@@ -14,6 +14,11 @@
                             {{ message }}
                         </div>
                     {% endfor %}
+                    {% for message in app.flashes('delete_book_success') %}
+                        <div class = "alert alert-success">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
                     <table class = "table table-bordered table-hover">
                         <thead>
                         <th>Book ID</th>
@@ -29,6 +34,7 @@
                                 <td>{{ book.dateOfPublish|date("Y/m/d") }}</td>
                                 <td>{{ book.getAuthorId().name}}</td>
                                 <td><a href="{{ path('edit_a_book', {book_id: book.id}) }}">Edit this book</a></td>
+                                <td><a href="{{ path('delete_a_book', {book_id: book.id}) }}">Delete this book</a></td>
                             </tr>
                         {% endfor %}
                         </tbody>

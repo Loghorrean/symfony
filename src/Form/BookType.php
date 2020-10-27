@@ -19,6 +19,7 @@ class BookType extends AbstractType {
                     'class' => 'form-control')
             ))
             ->add('date_of_publish', DateType::class, array(
+                'years' => range(date('Y') - 100, date('Y')),
                 'label' => 'Date of publishing the book',
                 'attr' => array(
                     'class' => 'form-control')
@@ -33,13 +34,7 @@ class BookType extends AbstractType {
                 'attr' => array(
                     'class' => 'btn btn-success',
                     'style' => 'float: left'
-            )))
-            ->add('delete', SubmitType::class, array (
-                'label' => 'Delete',
-                'attr' => array(
-                    'class' => 'btn btn-danger'
-                )
-                ));
+            )));
     }
 
     public function getName() : string {

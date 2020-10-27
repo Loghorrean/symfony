@@ -31,7 +31,7 @@ class Book
      * @ORM\ManyToOne(targetEntity=Author::class, inversedBy="authors_books")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $author_id;
+    private $author;
 
     public function getId(): ?int
     {
@@ -64,12 +64,12 @@ class Book
 
     public function getAuthorId(): ?Author
     {
-        return $this->author_id;
+        return $this->author;
     }
 
-    public function setAuthorId(?Author $author_id): self
+    public function setAuthorId(?Author $author): self
     {
-        $this->author_id = $author_id;
+        $this->author = $author;
         return $this;
     }
 }

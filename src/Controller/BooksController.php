@@ -86,14 +86,30 @@ class BooksController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             if ($form->get('save')->isClicked()) {
-                $this->addFlash('edit_book_success', 'Book is successfully edited');
-            }
-            if ($form->get('delete')->isClicked()) {
-                $em->remove($book);
+                $this->addFlash('edit_book_success', 'Book number ' . $book->getId() . ' is successfully edited');
             }
             $em->flush();
             return $this->redirectToRoute('main_page');
         }
         return $this->render('Books/book_edit.html.twig', ['form' => $form->createView()]);
+    }
+
+    /**
+     * @Route("/delete_book/{book_id<\d+>}", name="delete_a_book")
+     * @param int $book_id
+     * @param Request $request
+     * @return Response
+     */
+    public function delete_book(int $book_id, Request $request) : Response {
+        $em = $this->getDoctrine()->getManager();
+
+        $book = $this->getDoctrine()->getRepository(Book::class)->find($book_id);
+        if (!$book) {
+            throw $this->createNotFoundException("No book with an id " . $book_id);
+        }
+        $em->remove($book);
+        $em->flush();
+        $this->addFlash('delete_book_success', 'Book with the title ' . $book->getName() . ' is successfully deleted');
+        return $this->redirectToRoute('main_page');
     }
 }
