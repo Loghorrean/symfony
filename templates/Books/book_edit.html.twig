@@ -1,5 +1,21 @@
 {% include 'header.html.twig' %}
-This is an edit page<br>
-Author id is: {{ book_id }} and it is {{ author_name }}
+<div id = "wrapper">
+    <div id = "page-wrapper">
+        <div class = "container-fluid">
+            <div class = "row">
+                <div class = "col-lg-12">
+                    <h1 class = "page-header">
+                        Edit this book
+                    </h1>
+                </div>
+                <div class = "col-xs-6">
+                    {{ form_start(form) }}
+                    {{ form_widget(form) }}
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <a href="{{ path('main_page') }}">Go Back</a>
 {% include 'footer.html.twig' %}

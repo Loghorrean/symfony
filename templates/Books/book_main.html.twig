@@ -12,6 +12,11 @@ This is a main page<br>
                     </h1>
                 </div>
                 <div class = "col-lg-6">
+                    {% for message in app.flashes('edit_book_success') %}
+                        <div class = "alert alert-success">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
                     <table class = "table table-bordered table-hover">
                         <thead>
                         <th>Book ID</th>

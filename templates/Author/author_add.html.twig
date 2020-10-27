@@ -9,6 +9,11 @@
                     </h1>
                 </div>
                 <div class = "col-xs-6">
+                    {% for message in app.flashes('add_author_success') %}
+                        <div class = "alert alert-success">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
                     {{ form_start(form) }}
                     {{ form_widget(form) }}
                     {{ form_end(form) }}
