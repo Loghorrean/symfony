@@ -14,12 +14,11 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class BookRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
-    {
+    public function __construct(ManagerRegistry $registry) {
         parent::__construct($registry, Book::class);
     }
 
-    public function getBooksWithAuthors() {
+    public function getBooksWithAuthors() : array {
         $em = $this->getEntityManager();
         $books = $em->createQueryBuilder()
             ->select('b, a')
