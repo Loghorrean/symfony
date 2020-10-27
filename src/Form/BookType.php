@@ -29,10 +29,17 @@ class BookType extends AbstractType {
                 'choice_label' => 'name'
                 ))
             ->add('save', SubmitType::class, array(
+                'label' => 'Save',
                 'attr' => array(
-                    'class' => 'btn btn-primary'
-            )
-            ));
+                    'class' => 'btn btn-success',
+                    'style' => 'float: left'
+            )))
+            ->add('delete', SubmitType::class, array (
+                'label' => 'Delete',
+                'attr' => array(
+                    'class' => 'btn btn-danger'
+                )
+                ));
     }
 
     public function getName() : string {

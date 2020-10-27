@@ -14,10 +14,10 @@
                             {{ message }}
                         </div>
                     {% endfor %}
+                    <a href="{{ path('main_page') }}"><button class="btn-primary btn">Go Back</button></a>
                     {{ form_start(form) }}
                     {{ form_widget(form) }}
                     {{ form_end(form) }}
-                    <a href="{{ path('main_page') }}"><button class="btn-primary btn">Go Back</button></a>
                 </div>
                 <div class = "col-xs-6">
                     <table class = "table table-bordered table-hover">

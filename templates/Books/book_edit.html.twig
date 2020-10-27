@@ -9,6 +9,7 @@
                     </h1>
                 </div>
                 <div class = "col-xs-6">
+                    <a href="{{ path('main_page') }}"><button class="btn-primary btn">Go Back</button></a>
                     {{ form_start(form) }}
                     {{ form_widget(form) }}
                     {{ form_end(form) }}
@@ -17,5 +18,4 @@
         </div>
     </div>
 </div>
-<a href="{{ path('main_page') }}">Go Back</a>
 {% include 'footer.html.twig' %}

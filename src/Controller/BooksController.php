@@ -24,7 +24,7 @@ class BooksController extends AbstractController
     }
 
     /**
-     * @Route("/add", name="add_a_book")
+     * @Route("/add_book", name="add_a_book")
      */
     public function add_book(Request $request) : Response {
         $book = new Book();
@@ -69,7 +69,7 @@ class BooksController extends AbstractController
     }
 
     /**
-     * @Route("/edit/{book_id<\d+>}", name="edit_a_book")
+     * @Route("/edit_book/{book_id<\d+>}", name="edit_a_book")
      * @param int $book_id
      * @param Request $request
      * @return Response
@@ -85,7 +85,12 @@ class BooksController extends AbstractController
         $form = $this->createForm(BookType::class, $book);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->addFlash('edit_book_success', 'Book is successfully edited');
+            if ($form->get('save')->isClicked()) {
+                $this->addFlash('edit_book_success', 'Book is successfully edited');
+            }
+            if ($form->get('delete')->isClicked()) {
+                $em->remove($book);
+            }
             $em->flush();
             return $this->redirectToRoute('main_page');
         }

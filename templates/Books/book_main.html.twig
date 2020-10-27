@@ -1,7 +1,4 @@
 {% include 'header.html.twig' %}
-This is a main page<br>
-<a href="{{ path('add_an_author') }}">Add a new Author</a><br>
-<a href="{{ path('add_a_book') }}">Add a new Book</a><br>
 <div id = "wrapper">
     <div id = "page-wrapper">
         <div class = "container-fluid">
@@ -36,5 +33,7 @@ This is a main page<br>
                         {% endfor %}
                         </tbody>
                     </table>
+                    <a href="{{ path('add_an_author') }}">Add a new Author</a><br>
+                    <a href="{{ path('add_a_book') }}">Add a new Book</a><br>
                 </div>
 {% include 'footer.html.twig' %}
