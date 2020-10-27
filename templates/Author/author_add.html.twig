@@ -9,16 +9,25 @@
                     </h1>
                 </div>
                 <div class = "col-xs-6">
-                    <form action = "" method = "POST">
-                        <div class = "form-group">
-                            <label for="author_name">Author's name</label>
-                            <input type = "text" name="author_name" id="author_name" class="form-control">
-                        </div>
-                        <div class = "form-group">
-                            <input type = "submit" name="add_author" value = "Add an author" class="btn btn-primary">
-                        </div>
-                    </form>
+                    {{ form_start(form) }}
+                    {{ form_widget(form) }}
+                    {{ form_end(form) }}
                     <a href="{{ path('main_page') }}"><button class="btn-primary btn">Go Back</button></a>
+                </div>
+                <div class = "col-xs-6">
+                    <table class = "table table-bordered table-hover">
+                        <thead>
+                            <th>Author name</th>
+                        </thead>
+                        <tbody>
+                        {% for author in authors %}
+                            <tr>
+                                <td>{{ author.name }}</td>
+                                <td>{{ author.name }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
