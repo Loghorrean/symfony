@@ -1,4 +1,10 @@
-{% include 'header.html.twig' %}
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ title }}
+{% endblock %}
+
+{% block body %}
 <div id = "wrapper">
     <div id = "page-wrapper">
         <div class = "container-fluid">
@@ -8,6 +14,7 @@
                         List of Books
                     </h1>
                 </div>
+                {% if books is not empty %}
                 <div class = "col-lg-6">
                     {% for message in app.flashes('edit_book_success') %}
                         <div class = "alert alert-success">
@@ -42,4 +49,14 @@
                     <a href="{{ path('add_an_author') }}">Add a new Author</a><br>
                     <a href="{{ path('add_a_book') }}">Add a new Book</a><br>
                 </div>
-{% include 'footer.html.twig' %}
+                {% else %}
+                    <div class = "alert alert-success alert-dismissible">
+                       There are no books in the library right now.<br>
+                        You can <a href="{{ path('add_a_book') }}">add some</a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

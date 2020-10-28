@@ -1,4 +1,10 @@
-{% include 'header.html.twig' %}
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ title }}
+{% endblock %}
+
+{% block body %}
 <div id = "wrapper">
     <div id = "page-wrapper">
         <div class = "container-fluid">
@@ -18,4 +24,4 @@
         </div>
     </div>
 </div>
-{% include 'footer.html.twig' %}
+{% endblock %}
