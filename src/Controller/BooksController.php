@@ -54,32 +54,9 @@ class BooksController extends BaseController
         }
         $defaultRender['title'] = "Add a book!";
         $defaultRender['form'] = $form->createView();
-        $defaultRender['books'] = $this->booksRepository->findAll();
-        $defaultRender['check_authors'] = $this->authorsRepository->findAll();
+        $defaultRender['books'] = $this->booksRepository->getAllBooks();
+        $defaultRender['check_authors'] = $this->authorsRepository->getAllAuthors();
         return $this->render('Books/book_add.html.twig', $defaultRender);
-    }
-
-    /**
-     * @Route("/authors", name="add_an_author");
-     * @param Request $request
-     * @return Response
-     */
-    public function add_author(Request $request) : Response {
-        $defaultRender = parent::renderDefault();
-        $author = new Author();
-
-        $form = $this->createForm(AuthorType::class, $author);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->authorsRepository->setCreateAuthor($author);
-            $this->addFlash('add_author_success', 'Author is successfully added');
-            return $this->redirectToRoute('add_an_author');
-        }
-        $defaultRender['title'] = "Add new Author!";
-        $defaultRender['form'] = $form->createView();
-        $defaultRender['authors'] = $this->authorsRepository->findAll();
-        return $this->render('Author/author_add.html.twig', $defaultRender);
     }
 
     /**

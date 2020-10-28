@@ -3,7 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Book;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository as parentAlias;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -13,7 +13,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Book[]    findAll()
  * @method Book[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class BookRepository extends ServiceEntityRepository implements BookRepositoryInterface
+class BookRepository extends parentAlias implements BookRepositoryInterface
 {
     private $manager;
 
