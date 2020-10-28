@@ -13,21 +13,22 @@ interface BookRepositoryInterface {
     public function getAllBooks() : array;
 
     /**
+     * @param int $id
      * @return Book
      */
-    public function getOneBook() : Book;
+    public function getOneBook(int $id) : object;
 
     /**
      * @param Book $book
      * @return Book
      */
-    public function setCreateBook(Book $book) : Book;
+    public function setCreateBook(Book $book) : object;
 
     /**
      * @param Book $book
      * @return Book
      */
-    public function setUpdateBook(Book $book) : Book;
+    public function setUpdateBook(Book $book) : object;
 
     /**
      * @param Book $book

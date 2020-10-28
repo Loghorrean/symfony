@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Book;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -14,32 +15,34 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class BookRepository extends ServiceEntityRepository implements BookRepositoryInterface
 {
-    public function __construct(ManagerRegistry $registry) {
+    private $manager;
+
+    public function __construct(ManagerRegistry $registry, EntityManagerInterface $manager) {
+        $this->manager = $manager;
         parent::__construct($registry, Book::class);
     }
 
-    public function getAllBooks(): array
-    {
-        // TODO: Implement getAllBooks() method.
+    public function getAllBooks(): array {
+        return parent::findAll();
     }
 
-    public function getOneBook(): Book
-    {
-        // TODO: Implement getOneBook() method.
+    public function getOneBook(int $id): object {
+        return parent::find($id);
     }
 
-    public function setCreateBook(Book $book): Book
-    {
-        // TODO: Implement setCreateBook() method.
+    public function setCreateBook(Book $book): object {
+        $this->manager->persist($book);
+        $this->manager->flush();
+        return $book;
     }
 
-    public function setUpdateBook(Book $book): Book
-    {
-        // TODO: Implement setUpdateBook() method.
+    public function setUpdateBook(Book $book): object {
+        $this->manager->flush();
+        return $book;
     }
 
-    public function setDeleteBook(Book $book): void
-    {
-        // TODO: Implement setDeleteBook() method.
+    public function setDeleteBook(Book $book): void {
+        $this->manager->remove($book);
+        $this->manager->flush();
     }
 }

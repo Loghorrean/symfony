@@ -6,6 +6,8 @@ use App\Entity\Author;
 use App\Entity\Book;
 use App\Form\AuthorType;
 use App\Form\BookType;
+use App\Repository\AuthorRepositoryInterface;
+use App\Repository\BookRepositoryInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,41 +16,46 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class BooksController extends BaseController
 {
+    private $booksRepository;
+    private $authorsRepository;
+
+    public function __construct(BookRepositoryInterface $booksRepository, AuthorRepositoryInterface $authorsRepository) {
+        $this->booksRepository = $booksRepository;
+        $this->authorsRepository = $authorsRepository;
+    }
+
     /**
      * @Route("/", name="main_page")
+     * @return Response
      */
     public function index() : Response {
         $defaultRender = parent::renderDefault();
-        $books = $this->getDoctrine()->getRepository(Book::class)->findAll();
-        $defaultRender['books'] = $books;
+        $defaultRender['books'] = $this->booksRepository->getAllBooks();
         $defaultRender['title'] = "Main Page";
         return $this->render('Books/book_main.html.twig', $defaultRender);
     }
 
     /**
      * @Route("/add_book", name="add_a_book")
+     * @param Request $request
+     * @return Response
      */
     public function add_book(Request $request) : Response {
         $defaultRender = parent::renderDefault();
         $book = new Book();
-        $em = $this->getDoctrine()->getManager();
-
-        $books = $this->getDoctrine()->getRepository(Book::class)->findAll();
-        $authors = $this->getDoctrine()->getRepository(Author::class)->findAll();
 
         $form = $this->createForm(BookType::class, $book);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em->persist($book);
-            $em->flush();
+            $this->booksRepository->setCreateBook($book);
             $this->addFlash('add_book_success', 'Book is successfully added');
             return $this->redirectToRoute('add_a_book');
         }
         $defaultRender['title'] = "Add a book!";
         $defaultRender['form'] = $form->createView();
-        $defaultRender['books'] = $books;
-        $defaultRender['check_authors'] = $authors;
+        $defaultRender['books'] = $this->booksRepository->findAll();
+        $defaultRender['check_authors'] = $this->authorsRepository->findAll();
         return $this->render('Books/book_add.html.twig', $defaultRender);
     }
 
@@ -60,23 +67,18 @@ class BooksController extends BaseController
     public function add_author(Request $request) : Response {
         $defaultRender = parent::renderDefault();
         $author = new Author();
-        $em = $this->getDoctrine()->getManager();
 
-        $authors = $this->getDoctrine()->getRepository(Author::class)->findAll();
         $form = $this->createForm(AuthorType::class, $author);
-
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $author = $form->getData();
-            $em->persist($author);
-            $em->flush();
+            $this->authorsRepository->setCreateAuthor($author);
             $this->addFlash('add_author_success', 'Author is successfully added');
             return $this->redirectToRoute('add_an_author');
         }
         $defaultRender['title'] = "Add new Author!";
         $defaultRender['form'] = $form->createView();
-        $defaultRender['authors'] = $authors;
+        $defaultRender['authors'] = $this->authorsRepository->findAll();
         return $this->render('Author/author_add.html.twig', $defaultRender);
     }
 
@@ -88,9 +90,8 @@ class BooksController extends BaseController
      */
     public function edit_book(int $book_id, Request $request) : Response {
         $defaultRender = parent::renderDefault();
-        $em = $this->getDoctrine()->getManager();
 
-        $book = $this->getDoctrine()->getRepository(Book::class)->find($book_id);
+        $book = $this->booksRepository->getOneBook($book_id);
         if (!$book) {
             throw $this->createNotFoundException("No book with an id " . $book_id);
         }
@@ -98,8 +99,8 @@ class BooksController extends BaseController
         $form = $this->createForm(BookType::class, $book);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            $this->booksRepository->setUpdateBook($book);
             $this->addFlash('edit_book_success', 'Book number ' . $book->getId() . ' is successfully edited');
-            $em->flush();
             return $this->redirectToRoute('main_page');
         }
         $defaultRender['title'] = 'Edit a book';
@@ -114,14 +115,12 @@ class BooksController extends BaseController
      * @return Response
      */
     public function delete_book(int $book_id, Request $request) : Response {
-        $em = $this->getDoctrine()->getManager();
 
-        $book = $this->getDoctrine()->getRepository(Book::class)->find($book_id);
+        $book = $this->booksRepository->getOneBook($book_id);
         if (!$book) {
             throw $this->createNotFoundException("No book with an id " . $book_id);
         }
-        $em->remove($book);
-        $em->flush();
+        $this->booksRepository->setDeleteBook($book);
         $this->addFlash('delete_book_success', 'Book with the title ' . $book->getName() . ' is successfully deleted');
         return $this->redirectToRoute('main_page');
     }

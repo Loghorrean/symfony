@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Author;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -14,23 +15,24 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class AuthorRepository extends ServiceEntityRepository implements AuthorRepositoryInterface
 {
-    public function __construct(ManagerRegistry $registry)
-    {
+    private $manager;
+
+    public function __construct(ManagerRegistry $registry, EntityManagerInterface $manager) {
         parent::__construct($registry, Author::class);
+        $this->manager = $manager;
     }
     
-    public function getAllAuthors(): array
-    {
-        // TODO: Implement getAllAuthors() method.
+    public function getAllAuthors(): array {
+        return parent::findAll();
     }
 
-    public function getOneAuthor(): Author
-    {
-        // TODO: Implement getOneAuthor() method.
+    public function getOneAuthor(int $id): object {
+        return parent::find($id);
     }
 
-    public function setCreateAuthor(Author $author): Author
-    {
-        // TODO: Implement setCreateAuthor() method.
+    public function setCreateAuthor(Author $author): object {
+        $this->manager->persist($author);
+        $this->manager->flush();
+        return $author;
     }
 }
