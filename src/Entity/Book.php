@@ -25,7 +25,7 @@ class Book
     /**
      * @ORM\Column(type="date")
      */
-    private $date_of_publish;
+    private $dateOfPublish;
 
     /**
      * @ORM\ManyToOne(targetEntity=Author::class, inversedBy="authors_books")
@@ -33,42 +33,34 @@ class Book
      */
     private $author;
 
-    public function getId(): ?int
-    {
+    public function getId(): ?int {
         return $this->id;
     }
 
-    public function getName(): ?string
-    {
+    public function getName(): string {
         return $this->name;
     }
 
-    public function setName(string $name): self
-    {
+    public function setName(string $name): self {
         $this->name = $name;
+        return $this;
+    }
+
+    public function getDateOfPublish(): ?\DateTimeInterface {
+        return $this->dateOfPublish;
+    }
+
+    public function setDateOfPublish(\DateTimeInterface $dateOfPublish): self {
+        $this->dateOfPublish = $dateOfPublish;
 
         return $this;
     }
 
-    public function getDateOfPublish(): ?\DateTimeInterface
-    {
-        return $this->date_of_publish;
-    }
-
-    public function setDateOfPublish(\DateTimeInterface $date_of_publish): self
-    {
-        $this->date_of_publish = $date_of_publish;
-
-        return $this;
-    }
-
-    public function getAuthorId(): ?Author
-    {
+    public function getAuthorId(): ?Author {
         return $this->author;
     }
 
-    public function setAuthorId(?Author $author): self
-    {
+    public function setAuthorId(?Author $author): self {
         $this->author = $author;
         return $this;
     }

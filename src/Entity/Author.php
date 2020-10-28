@@ -27,57 +27,47 @@ class Author
     /**
      * @ORM\OneToMany(targetEntity=Book::class, mappedBy="author_id")
      */
-    private $authors_books;
+    private $authorsBooks;
 
-    public function __construct()
-    {
-        $this->authors_books = new ArrayCollection();
+    public function __construct() {
+        $this->authorsBooks = new ArrayCollection();
     }
 
-    public function getId(): ?int
-    {
+    public function getId(): int {
         return $this->id;
     }
 
-    public function getName(): ?string
-    {
+    public function getName(): string {
         return $this->name;
     }
 
-    public function setName(string $name): self
-    {
+    public function setName(string $name): self {
         $this->name = $name;
-
         return $this;
     }
 
     /**
      * @return Collection|Book[]
      */
-    public function getAuthorsBooks(): Collection
-    {
-        return $this->authors_books;
+    public function getAuthorsBooks(): Collection {
+        return $this->authorsBooks;
     }
 
-    public function addAuthorsBook(Book $authorsBook): self
-    {
-        if (!$this->authors_books->contains($authorsBook)) {
-            $this->authors_books[] = $authorsBook;
+    public function addAuthorsBook(Book $authorsBook): self {
+        if (!$this->authorsBooks->contains($authorsBook)) {
+            $this->authorsBooks[] = $authorsBook;
             $authorsBook->setAuthorId($this);
         }
-
         return $this;
     }
 
-    public function removeAuthorsBook(Book $authorsBook): self
-    {
-        if ($this->authors_books->removeElement($authorsBook)) {
+    public function removeAuthorsBook(Book $authorsBook): self {
+        if ($this->authorsBooks->removeElement($authorsBook)) {
             // set the owning side to null (unless already changed)
             if ($authorsBook->getAuthorId() === $this) {
                 $authorsBook->setAuthorId(null);
             }
         }
-
         return $this;
     }
 }
