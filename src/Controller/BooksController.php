@@ -7,30 +7,34 @@ use App\Entity\Book;
 use App\Form\AuthorType;
 use App\Form\BookType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class BooksController extends AbstractController
+class BooksController extends BaseController
 {
     /**
      * @Route("/", name="main_page")
      */
     public function index() : Response {
+        $defaultRender = parent::renderDefault();
         $books = $this->getDoctrine()->getRepository(Book::class)->findAll();
-        return $this->render('Books/book_main.html.twig', ['books' => $books]);
+        $defaultRender['books'] = $books;
+        $defaultRender['title'] = "Main Page";
+        return $this->render('Books/book_main.html.twig', $defaultRender);
     }
 
     /**
      * @Route("/add_book", name="add_a_book")
      */
     public function add_book(Request $request) : Response {
+        $defaultRender = parent::renderDefault();
         $book = new Book();
         $em = $this->getDoctrine()->getManager();
 
         $books = $this->getDoctrine()->getRepository(Book::class)->findAll();
+        $authors = $this->getDoctrine()->getRepository(Author::class)->findAll();
 
         $form = $this->createForm(BookType::class, $book);
         $form->handleRequest($request);
@@ -41,7 +45,11 @@ class BooksController extends AbstractController
             $this->addFlash('add_book_success', 'Book is successfully added');
             return $this->redirectToRoute('add_a_book');
         }
-        return $this->render('Books/book_add.html.twig', ['books' => $books, 'form' => $form->createView()]);
+        $defaultRender['title'] = "Add a book!";
+        $defaultRender['form'] = $form->createView();
+        $defaultRender['books'] = $books;
+        $defaultRender['check_authors'] = $authors;
+        return $this->render('Books/book_add.html.twig', $defaultRender);
     }
 
     /**
@@ -50,6 +58,7 @@ class BooksController extends AbstractController
      * @return Response
      */
     public function add_author(Request $request) : Response {
+        $defaultRender = parent::renderDefault();
         $author = new Author();
         $em = $this->getDoctrine()->getManager();
 
@@ -65,7 +74,10 @@ class BooksController extends AbstractController
             $this->addFlash('add_author_success', 'Author is successfully added');
             return $this->redirectToRoute('add_an_author');
         }
-        return $this->render('Author/author_add.html.twig', ['authors' => $authors, 'form' => $form->createView()]);
+        $defaultRender['title'] = "Add new Author!";
+        $defaultRender['form'] = $form->createView();
+        $defaultRender['authors'] = $authors;
+        return $this->render('Author/author_add.html.twig', $defaultRender);
     }
 
     /**
@@ -75,6 +87,7 @@ class BooksController extends AbstractController
      * @return Response
      */
     public function edit_book(int $book_id, Request $request) : Response {
+        $defaultRender = parent::renderDefault();
         $em = $this->getDoctrine()->getManager();
 
         $book = $this->getDoctrine()->getRepository(Book::class)->find($book_id);
@@ -85,13 +98,13 @@ class BooksController extends AbstractController
         $form = $this->createForm(BookType::class, $book);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            if ($form->get('save')->isClicked()) {
-                $this->addFlash('edit_book_success', 'Book number ' . $book->getId() . ' is successfully edited');
-            }
+            $this->addFlash('edit_book_success', 'Book number ' . $book->getId() . ' is successfully edited');
             $em->flush();
             return $this->redirectToRoute('main_page');
         }
-        return $this->render('Books/book_edit.html.twig', ['form' => $form->createView()]);
+        $defaultRender['title'] = 'Edit a book';
+        $defaultRender['form'] = $form->createView();
+        return $this->render('Books/book_edit.html.twig', $defaultRender);
     }
 
     /**
