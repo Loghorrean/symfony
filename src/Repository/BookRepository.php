@@ -12,48 +12,34 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Book[]    findAll()
  * @method Book[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class BookRepository extends ServiceEntityRepository
+class BookRepository extends ServiceEntityRepository implements BookRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry) {
         parent::__construct($registry, Book::class);
     }
 
-    public function getBooksWithAuthors() : array {
-        $em = $this->getEntityManager();
-        $books = $em->createQueryBuilder()
-            ->select('b, a')
-            ->from('App:Book', 'b')
-            ->innerJoin('b.author_id', 'a')
-            ->getQuery()->getResult();
-        return $books;
+    public function getAllBooks(): array
+    {
+        // TODO: Implement getAllBooks() method.
     }
 
-    // /**
-    //  * @return Book[] Returns an array of Book objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function getOneBook(): Book
     {
-        return $this->createQueryBuilder('b')
-            ->andWhere('b.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('b.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
+        // TODO: Implement getOneBook() method.
     }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?Book
+    public function setCreateBook(Book $book): Book
     {
-        return $this->createQueryBuilder('b')
-            ->andWhere('b.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        // TODO: Implement setCreateBook() method.
     }
-    */
+
+    public function setUpdateBook(Book $book): Book
+    {
+        // TODO: Implement setUpdateBook() method.
+    }
+
+    public function setDeleteBook(Book $book): void
+    {
+        // TODO: Implement setDeleteBook() method.
+    }
 }
