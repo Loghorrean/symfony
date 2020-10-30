@@ -26,11 +26,11 @@ class AuthorRepository extends ServiceEntityRepository implements AuthorReposito
         return parent::findAll();
     }
 
-    public function getOneAuthor(int $id): object {
+    public function getOneAuthor(int $id): Author {
         return parent::find($id);
     }
 
-    public function setCreateAuthor(Author $author): object {
+    public function setCreateAuthor(Author $author): Author {
         $this->manager->persist($author);
         $this->manager->flush();
         return $author;

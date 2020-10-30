@@ -26,17 +26,17 @@ class BookRepository extends parentAlias implements BookRepositoryInterface
         return parent::findAll();
     }
 
-    public function getOneBook(int $id): object {
+    public function getOneBook(int $id): Book {
         return parent::find($id);
     }
 
-    public function setCreateBook(Book $book): object {
+    public function setCreateBook(Book $book): Book {
         $this->manager->persist($book);
         $this->manager->flush();
         return $book;
     }
 
-    public function setUpdateBook(Book $book): object {
+    public function setUpdateBook(Book $book): Book {
         $this->manager->flush();
         return $book;
     }

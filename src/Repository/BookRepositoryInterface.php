@@ -16,19 +16,19 @@ interface BookRepositoryInterface {
      * @param int $id
      * @return Book
      */
-    public function getOneBook(int $id) : object;
+    public function getOneBook(int $id) : Book;
 
     /**
      * @param Book $book
      * @return Book
      */
-    public function setCreateBook(Book $book) : object;
+    public function setCreateBook(Book $book) : Book;
 
     /**
      * @param Book $book
      * @return Book
      */
-    public function setUpdateBook(Book $book) : object;
+    public function setUpdateBook(Book $book) : Book;
 
     /**
      * @param Book $book

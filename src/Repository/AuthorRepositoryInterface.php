@@ -16,11 +16,11 @@ interface AuthorRepositoryInterface {
      * @param int $id
      * @return Author
      */
-    public function getOneAuthor(int $id) : object;
+    public function getOneAuthor(int $id) : Author;
 
     /**
      * @param Author $author
      * @return Author
      */
-    public function setCreateAuthor(Author $author) : object;
+    public function setCreateAuthor(Author $author) : Author;
 }
