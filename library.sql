@@ -24,7 +24,7 @@ DROP TABLE IF EXISTS `author`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `author` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(35) NOT NULL,
+  `name` varchar(35) COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -50,7 +50,7 @@ DROP TABLE IF EXISTS `book`;
 CREATE TABLE `book` (
   `id` int NOT NULL AUTO_INCREMENT,
   `author_id` int NOT NULL,
-  `name` varchar(35) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(35) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `date_of_publish` date NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`),
@@ -90,7 +90,6 @@ CREATE TABLE `doctrine_migration_versions` (
 
 LOCK TABLES `doctrine_migration_versions` WRITE;
 /*!40000 ALTER TABLE `doctrine_migration_versions` DISABLE KEYS */;
-INSERT INTO `doctrine_migration_versions` VALUES ('DoctrineMigrations\\Version20201026212958','2020-10-26 22:47:16',1279),('DoctrineMigrations\\Version20201026230422','2020-10-27 00:04:42',1651);
 /*!40000 ALTER TABLE `doctrine_migration_versions` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -103,4 +102,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-10-28  4:44:17
+-- Dump completed on 2020-10-30 18:50:17
